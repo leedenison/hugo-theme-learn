@@ -17,6 +17,7 @@
     <link href="{{"css/auto-complete.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
     <link href="{{"css/theme.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
     <link href="{{"css/hugo-theme.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+    <link href="{{"css/notices.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
     {{with .Site.Params.themeVariant}}
       <link href="{{(printf "css/theme-%s.css" .) | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
     {{end}}
@@ -47,12 +48,12 @@
                   {{ $File := .File }}
                   {{ $Site := .Site }}
                   {{with $File.Path }}
-                  <div id="top-github-link">
+                  <!--div id="top-github-link">
                     <a class="github-link" title='{{T "Edit-this-page"}}' href="{{ $Site.Params.editURL }}{{ replace $File.Dir "\\" "/" }}{{ $File.LogicalName }}" target="blank">
                       <i class="fa fa-code-fork"></i>
                       <span id="top-github-link-text">{{T "Edit-this-page"}}</span>
                     </a>
-                  </div>
+                  </div-->
                   {{ end }}
                 {{ end }}
                 {{$toc := (and (not .Params.disableToc) (not .Params.chapter))}}
@@ -87,7 +88,7 @@
         {{define "breadcrumb"}}
           {{$parent := .page.Parent }}
           {{ if $parent }}
-            {{ $value := (printf "<a href='%s'>%s</a> > %s" $parent.URL $parent.Title .value) }}
+            {{ $value := (printf "<a href='%s'>%s</a> > %s" (replaceRE "/\\z" "/index.html" $parent.URL) $parent.Title .value) }}
             {{ template "breadcrumb" dict "page" $parent "value" $value }} 
           {{else}}
             {{.value|safeHTML}}

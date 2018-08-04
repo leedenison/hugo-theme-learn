@@ -5,6 +5,7 @@
   <div id="header-wrapper">
     <div id="header">
       {{ partial "logo.html" . }}
+      <p style="font-size: 160%">THE MAZE</p>
     </div>
     {{if not .Site.Params.disableSearch}}
         {{ partial "search.html" . }}
@@ -31,7 +32,7 @@
         <h3>{{ if not $disableShortcutsTitle}}{{ T "Shortcuts-Title"}}{{ end }}</h3>
         <ul>
           {{ range sort . "Weight"}}
-              <li> 
+              <li class="" role=""> 
                   {{.Pre}}<a class="padding" href="{{.URL | absLangURL }}">{{safeHTML .Name}}</a>{{.Post}}
               </li>
           {{end}}
@@ -111,11 +112,11 @@
       {{ $numberOfPages := (add (len .Pages) (len .Sections)) }}
       {{ if ne $numberOfPages 0 }}
         <ul>
-          {{ $currentNode.Scratch.Set "pages" .Pages }}
+          {{ .Scratch.Set "pages" .Pages }}
           {{ if .Sections}}
-            {{ $currentNode.Scratch.Set "pages" (.Pages | union .Sections) }}
+            {{ .Scratch.Set "pages" (.Pages | union .Sections) }}
           {{end}}
-          {{ $pages := ($currentNode.Scratch.Get "pages") }}
+          {{ $pages := (.Scratch.Get "pages") }}
           
         {{if eq .Site.Params.ordersectionsby "title"}}  
           {{ range $pages.ByTitle }}
